@@ -6,13 +6,16 @@ js:
 
 browser: lib/**/*.coffee
 	mkdir -p build/
-	./node_modules/.bin/browserify \
+	BROWSERIFYSWAP_ENV='all' ./node_modules/.bin/browserify \
 		--standalone PDFDocument \
-		--debug \
 		--transform coffeeify \
 		--extension .coffee \
-		lib/document.coffee \
-		| ./node_modules/.bin/exorcist build/pdfkit.js.map > build/pdfkit.js
+		--outfile build/pdfkit.js \
+		lib/document.coffee
+	./node_modules/.bin/uglifyjs \
+		--compress warnings=false \
+		--output build/pdfkit.min.js \
+		build/pdfkit.js
 
 browser-demo: js demo/browser.js
 	./node_modules/.bin/browserify demo/browser.js > demo/bundle.js

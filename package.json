@@ -26,16 +26,17 @@
     "brace": "^0.2.1",
     "brfs": "~1.0.1",
     "browserify": "^3.39.0",
+    "browserify-swap": "^0.2.2",
     "codemirror": "~3.20.0",
     "coffee-script": ">=1.0.1",
     "coffeeify": "^0.6.0",
-    "exorcist": "^0.1.5",
     "iconv-lite": "^0.4.13",
     "jade": "~1.1.5",
-    "markdown": "~0.5.0"
+    "markdown": "~0.5.0",
+    "uglifyjs": "^2.4.10"
   },
   "dependencies": {
-    "fontkit": "^1.0.0",
+    "fontkit": "^1.5.4",
     "linebreak": "~0.1.0",
     "png-js": ">=0.1.0"
   },
@@ -46,8 +47,17 @@
   "main": "js/document",
   "browserify": {
     "transform": [
-      "brfs"
+      "brfs",
+      "browserify-swap"
     ]
+  },
+  "browserify-swap": {
+    "@packages": [
+      "brotli"
+    ],
+    "all": {
+      "brotli/decompress\\.js$": "./stub/brotli/decompress.js"
+    }
   },
   "engine": [
     "node >= v0.10.0"
